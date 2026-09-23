@@ -2,18 +2,116 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Тест заказа</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 40px 20px;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+      }
+
+      .form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 25px;
+        background: white;
+        border-radius: 12px;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      input,
+      textarea,
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      button {
+        cursor: pointer;
+        border: 0;
+        border-radius: 8px;
+        background: #111;
+        color: white;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+      }
+
+      #result {
+        margin-top: 20px;
+      }
+    </style>
   </head>
 
   <body>
-    <h1>Тест Google Sheets + Telegram</h1>
+    <form class="form" id="orderForm">
+      <h1>Тест заказа</h1>
 
-    <button onclick="testOrder()">Отправить тестовую заявку</button>
+      <input id="name" type="text" placeholder="Имя" required />
 
-    <p id="result"></p>
+      <input id="phone" type="tel" placeholder="Телефон" required />
+
+      <input
+        id="product"
+        type="text"
+        placeholder="Товар"
+        value="Тестовый мангал"
+        required
+      />
+
+      <input
+        id="price"
+        type="number"
+        placeholder="Цена"
+        value="4500"
+        required
+      />
+
+      <input
+        id="quantity"
+        type="number"
+        placeholder="Количество"
+        value="1"
+        min="1"
+        required
+      />
+
+      <input id="city" type="text" placeholder="Город" value="Одесса" />
+
+      <input
+        id="branch"
+        type="text"
+        placeholder="Отделение Новой Почты"
+        value="№25"
+      />
+
+      <textarea id="comment" placeholder="Комментарий">
+Тестовая заявка</textarea
+      >
+
+      <button type="submit">Отправить тестовый заказ</button>
+
+      <div id="result"></div>
+    </form>
 
     <script src="app.js"></script>
   </body>

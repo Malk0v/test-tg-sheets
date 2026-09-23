@@ -1,32 +1,42 @@
 const API_URL =
   "https://script.google.com/macros/s/AKfycbxZt3mZZCHNz2tkekAXYHeWKEHcUxFZLAEdsSzEVrkdAYaQs0rxCBkZcs9ZWMmUT9GB/exec";
 
-async function testOrder() {
-  const testOrder = {
-    name: "Тестовый клиент",
+const form = document.getElementById("orderForm");
 
-    phone: "+380991234567",
+const result = document.getElementById("result");
 
-    product: "Тестовый мангал",
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const button = form.querySelector("button");
+
+  const order = {
+    name: document.getElementById("name").value.trim(),
+
+    phone: document.getElementById("phone").value.trim(),
+
+    product: document.getElementById("product").value.trim(),
 
     productId: "TEST-001",
 
-    quantity: 1,
+    quantity: Number(document.getElementById("quantity").value),
 
-    price: 4500,
+    price: Number(document.getElementById("price").value),
 
     delivery: "Новая Почта",
 
-    city: "Одесса",
+    city: document.getElementById("city").value.trim(),
 
-    branch: "Отделение №25",
+    branch: document.getElementById("branch").value.trim(),
 
-    comment: "Это тестовая заявка",
+    comment: document.getElementById("comment").value.trim(),
   };
 
-  console.log("Отправляем тестовую заявку...");
+  button.disabled = true;
 
-  console.log(testOrder);
+  button.textContent = "Отправляем...";
+
+  result.textContent = "";
 
   try {
     const response = await fetch(API_URL, {
@@ -36,24 +46,25 @@ async function testOrder() {
         "Content-Type": "text/plain;charset=utf-8",
       },
 
-      body: JSON.stringify(testOrder),
+      body: JSON.stringify(order),
     });
 
-    const result = await response.json();
+    const data = await response.json();
 
-    console.log("Ответ Google Apps Script:", result);
+    if (data.success) {
+      result.textContent = "✅ Заказ #" + data.orderId + " отправлен!";
 
-    if (result.success) {
-      document.getElementById("result").textContent =
-        "✅ Заявка #" + result.orderId + " успешно отправлена!";
+      form.reset();
     } else {
-      document.getElementById("result").textContent =
-        "❌ Ошибка: " + result.message;
+      result.textContent = "❌ " + (data.message || "Ошибка API");
     }
   } catch (error) {
-    console.error("Ошибка:", error);
+    console.error(error);
 
-    document.getElementById("result").textContent =
-      "❌ Ошибка соединения: " + error.message;
+    result.textContent = "❌ Ошибка соединения. " + "Смотри Console (F12).";
   }
-}
+
+  button.disabled = false;
+
+  button.textContent = "Отправить тестовый заказ";
+});
