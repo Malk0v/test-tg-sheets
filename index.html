@@ -2,6 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Тест заказа</title>
@@ -16,27 +17,32 @@
         padding: 40px 20px;
         font-family: Arial, sans-serif;
         background: #f5f5f5;
+        color: #111;
       }
 
-      .form {
-        max-width: 400px;
+      .container {
+        max-width: 500px;
         margin: 0 auto;
-        padding: 25px;
         background: white;
+        padding: 30px;
         border-radius: 12px;
       }
 
       h1 {
         margin-top: 0;
+        margin-bottom: 25px;
       }
 
       input,
       textarea,
       button {
         width: 100%;
-        padding: 12px;
-        margin-top: 10px;
+        padding: 13px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
         font-size: 16px;
+        font-family: inherit;
       }
 
       textarea {
@@ -45,74 +51,125 @@
       }
 
       button {
-        cursor: pointer;
-        border: 0;
-        border-radius: 8px;
+        border: none;
         background: #111;
         color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        opacity: 0.85;
       }
 
       button:disabled {
         opacity: 0.5;
+        cursor: default;
       }
 
-      #result {
-        margin-top: 20px;
+      #success {
+        display: none;
+        margin-top: 15px;
+        padding: 15px;
+        background: #e7f8e7;
+        border-radius: 6px;
       }
     </style>
   </head>
 
   <body>
-    <form class="form" id="orderForm">
+    <div class="container">
       <h1>Тест заказа</h1>
 
-      <input id="name" type="text" placeholder="Имя" required />
-
-      <input id="phone" type="tel" placeholder="Телефон" required />
-
-      <input
-        id="product"
-        type="text"
-        placeholder="Товар"
-        value="Тестовый мангал"
-        required
-      />
-
-      <input
-        id="price"
-        type="number"
-        placeholder="Цена"
-        value="4500"
-        required
-      />
-
-      <input
-        id="quantity"
-        type="number"
-        placeholder="Количество"
-        value="1"
-        min="1"
-        required
-      />
-
-      <input id="city" type="text" placeholder="Город" value="Одесса" />
-
-      <input
-        id="branch"
-        type="text"
-        placeholder="Отделение Новой Почты"
-        value="№25"
-      />
-
-      <textarea id="comment" placeholder="Комментарий">
-Тестовая заявка</textarea
+      <form
+        id="orderForm"
+        action="https://script.google.com/macros/s/AKfycbxYVM8DGt_WNDSUTYrMkTagmeEPG7pQpCopJLN6soZNGdDG5d3mPlJZzSVB5jxjyY22/exec"
+        method="POST"
+        target="hiddenFrame"
       >
+        <input
+          type="text"
+          name="name"
+          placeholder="Имя"
+          value="Тестовый клиент"
+          required
+        />
 
-      <button type="submit">Отправить тестовый заказ</button>
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Телефон"
+          value="+380991234567"
+          required
+        />
 
-      <div id="result"></div>
-    </form>
+        <input
+          type="text"
+          name="product"
+          placeholder="Товар"
+          value="Тестовый мангал"
+          required
+        />
 
-    <script src="app.js"></script>
+        <input
+          type="text"
+          name="productId"
+          placeholder="ID товара"
+          value="TEST-001"
+        />
+
+        <input
+          type="number"
+          name="quantity"
+          placeholder="Количество"
+          value="1"
+          min="1"
+        />
+
+        <input type="number" name="price" placeholder="Цена" value="4500" />
+
+        <input
+          type="text"
+          name="delivery"
+          placeholder="Доставка"
+          value="Новая Почта"
+        />
+
+        <input type="text" name="city" placeholder="Город" value="Одесса" />
+
+        <input type="text" name="branch" placeholder="Отделение" value="№25" />
+
+        <textarea name="comment" placeholder="Комментарий">
+Проверка системы</textarea
+        >
+
+        <button id="submitButton" type="submit">Отправить заказ</button>
+      </form>
+
+      <iframe name="hiddenFrame" style="display: none"></iframe>
+
+      <div id="success">
+        ✅ Заявка отправлена!
+        <br /><br />
+        Проверь Google Sheets и Telegram.
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("orderForm");
+      const button = document.getElementById("submitButton");
+      const success = document.getElementById("success");
+
+      form.addEventListener("submit", function () {
+        button.disabled = true;
+        button.textContent = "Отправляем...";
+
+        setTimeout(function () {
+          success.style.display = "block";
+
+          button.disabled = false;
+          button.textContent = "Отправить ещё раз";
+        }, 1500);
+      });
+    </script>
   </body>
 </html>

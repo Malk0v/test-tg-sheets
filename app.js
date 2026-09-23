@@ -1,6 +1,5 @@
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbxZt3mZZCHNz2tkekAXYHeWKEHcUxFZLAEdsSzEVrkdAYaQs0rxCBkZcs9ZWMmUT9GB/exec";
-
+  "https://script.google.com/macros/s/AKfycbwr9evtVEBnFAcH4gqO22SRUBqKf7wquERw2zkyWVJUamAraFOTM4EekLR7J7D1DbUx/exec";
 const form = document.getElementById("orderForm");
 
 const result = document.getElementById("result");
